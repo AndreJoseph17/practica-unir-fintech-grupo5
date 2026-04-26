@@ -16,6 +16,10 @@ run-local:
 run-words:
 	@echo "Ejecutando con fichero de palabras: $(FILE)"
 	$(PYTHON) $(SCRIPT) $(FILE)
+# Objetivo para ejecutar con parámetros (ejemplo: orden descendente)
+run-desc:
+	$(PYTHON) $(SCRIPT) --desc
+
 
 # Limpieza de archivos temporales de Python
 clean:

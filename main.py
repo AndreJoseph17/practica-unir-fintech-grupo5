@@ -8,8 +8,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 OPCIONES = {
     "1": "opcion1.py",
-    "2": "listar_archivos.py",
-    "3": "opcion3.py",
+    "2": "opcion2.py",
+    "3": "listar_archivos.py",
     "4": "opcion4.py",
     "5": "opcion5.py",
     "6": "opcion6.py",
@@ -61,16 +61,17 @@ def mostrar_menu():
     while True:
         os.system("cls" if os.name == "nt" else "clear")
         print("MENU PRINCIPAL")
-        print("1. Opcion 1")
-        print("2. Opcion 2")
-        print("3. Opcion 3")
-        print("4. Opcion 4")
-        print("5. Opcion 5")
-        print("6. Opcion 6")
+        print("1. Op. Traducir los mensajes que se imprimen por pantalla al inglés")
+        print("2. Op. Aceptar un nuevo parámetro de línea de comandos que indique si el orden debe ser asc o desc.")
+        print("3. Op. Aceptar un nueva ruta y un param. que indique si el orden debe ser asc o desc.")
+        print("4. Op. Añadir una directiva en el Makefile que ejecute el comando en local, sin arrancar un contenedor de Docker")
+        print("5. Op. Añadir un fichero de ejemplo, palabras.txt, que incluya varias palabras desordenadas, una por línea, y modificar el Makefile para que use el nombre del fichero como parámetro de línea de comandos.")
         print("0. Salir")
 
         opcion = input("\nSelecciona una opcion: ").strip()
-	
+
+        archivo = OPCIONES.get(opcion)
+
         if opcion == "0":
             print("\nSaliendo del programa...")
             break
@@ -81,25 +82,17 @@ def mostrar_menu():
         if opcion == "2":
             tarea_opcion_3_ordenamiento()
             
-        archivo = OPCIONES.get(opcion)
+        if opcion == "3":
+            ruta = input("\nIngresa la ruta a listar: ").strip()
+            orden = input("Ingresa el orden (asc/desc): ").strip().lower()
 
-        if archivo:
-            if opcion == "3":
-                ruta = input("\nIngresa la ruta a listar: ").strip()
-                orden = input("Ingresa el orden (asc/desc): ").strip().lower()
-
-                if orden not in ("asc", "desc"):
-                    print("\nOrden no valido. Usa 'asc' o 'desc'.")
-                    input("\nPresiona Enter para intentarlo de nuevo...")
-                    continue
-
-                ejecutar_archivo(archivo, [ruta, "--orden", orden])
-            else:
-                ejecutar_archivo(archivo)
-        else:
-            print("\nOpcion no valida / Invalid option.")
-            input("\nPresiona Enter para intentar de nuevo...")
-
+            if orden not in ("asc", "desc"):
+                print("\nOrden no valido. Usa 'asc' o 'desc'.")
+                input("\nPresiona Enter para intentarlo de nuevo...")
+                continue
+            
+            ejecutar_archivo(archivo, [ruta, "--orden", orden])
+        
 if __name__ == "__main__":
          if len(sys.argv) > 1 and sys.argv[1] == "--desc":
             tarea_opcion_3_ordenamiento("desc")

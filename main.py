@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+import argparse
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -13,7 +14,6 @@ OPCIONES = {
     "5": "opcion5.py",
     "6": "opcion6.py",
 }
-
 
 def ejecutar_archivo(nombre_archivo, argumentos=None):
     ruta_archivo = os.path.join(BASE_DIR, nombre_archivo)
@@ -30,6 +30,32 @@ def ejecutar_archivo(nombre_archivo, argumentos=None):
     subprocess.run(comando, check=False)
     input("\nPresiona Enter para volver al menu...")
 
+def tarea_opcion_2_traduccion():
+    """Muestra mensajes traducidos al inglés."""
+    os.system("cls" if os.name == "nt" else "clear")
+    print("--- OPTION 2: TRANSLATION TASK ---")
+    print("Status: System is running correctly.")
+    print("Message: All interface elements have been translated to English.")
+    print("Action: Returning to main menu...")
+    input("\nPress Enter to continue...")
+
+def tarea_opcion_3_ordenamiento(orden_param=None):
+    """Ordena una lista basada en un parámetro."""
+    os.system("cls" if os.name == "nt" else "clear")
+    words = ["banana", "apple", "cherry", "date"]
+    print("Listado Inicial: {word}")    
+
+    # Si no se pasa parámetro por comando, lo pedimos por teclado
+    if not orden_param:
+        print("--- OPTION 3: SORTING TASK ---")
+        orden_param = input("Select order (asc/desc): ").strip().lower()
+
+    is_reverse = True if orden_param == "desc" else False
+    result = sorted(words, reverse=is_reverse)
+
+    print(f"\nOrder selected: {'Descending' if is_reverse else 'Ascending'}")
+    print(f"Sorted list: {result}")
+    input("\nPress Enter to return to menu...")
 
 def mostrar_menu():
     while True:
@@ -44,15 +70,21 @@ def mostrar_menu():
         print("0. Salir")
 
         opcion = input("\nSelecciona una opcion: ").strip()
-
+	
         if opcion == "0":
             print("\nSaliendo del programa...")
             break
+        
+        if opcion == "1":
+            tarea_opcion_2_traduccion()
 
+        if opcion == "2":
+            tarea_opcion_3_ordenamiento()
+            
         archivo = OPCIONES.get(opcion)
 
         if archivo:
-            if opcion == "2":
+            if opcion == "3":
                 ruta = input("\nIngresa la ruta a listar: ").strip()
                 orden = input("Ingresa el orden (asc/desc): ").strip().lower()
 
@@ -65,9 +97,11 @@ def mostrar_menu():
             else:
                 ejecutar_archivo(archivo)
         else:
-            print("\nOpcion no valida.")
-            input("\nPresiona Enter para intentarlo de nuevo...")
-
+            print("\nOpcion no valida / Invalid option.")
+            input("\nPresiona Enter para intentar de nuevo...")
 
 if __name__ == "__main__":
-    mostrar_menu()
+         if len(sys.argv) > 1 and sys.argv[1] == "--desc":
+            tarea_opcion_3_ordenamiento("desc")
+         else:
+             mostrar_menu()

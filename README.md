@@ -3,11 +3,10 @@
 Aplicación para ordenar listas de palabras.
 
 ## Cómo ejecutar
-Para usar la aplicación con el archivo de ejemplo:
+Para usar la aplicación se pueden usar las siguientes dos opciones:
 ```bash
 make run-file
 
-## Cómo ejecutar de otra manera
-Otra manera de ejecutar es la siguiente:
-```bash
+o
+
 python main.py

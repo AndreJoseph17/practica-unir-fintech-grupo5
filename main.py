@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 OPCIONES = {
     "1": "opcion1.py",
-    "2": "opcion2.py",
+    "2": "listar_archivos.py",
     "3": "opcion3.py",
     "4": "opcion4.py",
     "5": "opcion5.py",
@@ -15,7 +15,7 @@ OPCIONES = {
 }
 
 
-def ejecutar_archivo(nombre_archivo):
+def ejecutar_archivo(nombre_archivo, argumentos=None):
     ruta_archivo = os.path.join(BASE_DIR, nombre_archivo)
 
     if not os.path.exists(ruta_archivo):
@@ -23,7 +23,11 @@ def ejecutar_archivo(nombre_archivo):
         input("\nPresiona Enter para volver al menu...")
         return
 
-    subprocess.run([sys.executable, ruta_archivo], check=False)
+    comando = [sys.executable, ruta_archivo]
+    if argumentos:
+        comando.extend(argumentos)
+
+    subprocess.run(comando, check=False)
     input("\nPresiona Enter para volver al menu...")
 
 
@@ -48,7 +52,18 @@ def mostrar_menu():
         archivo = OPCIONES.get(opcion)
 
         if archivo:
-            ejecutar_archivo(archivo)
+            if opcion == "2":
+                ruta = input("\nIngresa la ruta a listar: ").strip()
+                orden = input("Ingresa el orden (asc/desc): ").strip().lower()
+
+                if orden not in ("asc", "desc"):
+                    print("\nOrden no valido. Usa 'asc' o 'desc'.")
+                    input("\nPresiona Enter para intentarlo de nuevo...")
+                    continue
+
+                ejecutar_archivo(archivo, [ruta, "--orden", orden])
+            else:
+                ejecutar_archivo(archivo)
         else:
             print("\nOpcion no valida.")
             input("\nPresiona Enter para intentarlo de nuevo...")
